@@ -8,15 +8,38 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 import VueRouter from 'vue-router'
+import {
+    Form,
+    HasError,
+    AlertError
+} from 'vform'
+
+Vue.component(HasError.name, HasError)
+Vue.component(AlertError.name, AlertError)
+
+window.Form = Form;
+
+import Swal from 'sweetalert2'
+
+// CommonJS
+window.Swal = Swal
+
+
+
 
 Vue.use(VueRouter)
 
 
 
 
-const routes = [
-    { path: '/user', component: require('./components/User.vue').default },
-    { path: '/product', component:require('./components/Product.vue').default }
+const routes = [{
+        path: '/user',
+        component: require('./components/User.vue').default
+    },
+    {
+        path: '/product',
+        component: require('./components/Product.vue').default
+    }
 ]
 
 
