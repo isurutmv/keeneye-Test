@@ -17,6 +17,7 @@ import {
 Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
 
+
 window.Form = Form;
 
 import Swal from 'sweetalert2'
