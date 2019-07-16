@@ -25,7 +25,9 @@ import Swal from 'sweetalert2'
 // CommonJS
 window.Swal = Swal
 
+import Gate from './Gate';
 
+Vue.prototype.$gate = new Gate(window.user);
 
 
 Vue.use(VueRouter)
@@ -38,7 +40,7 @@ const routes = [{
         component: require('./components/User.vue').default
     },
     {
-        path: '/product',
+        path: '/home',
         component: require('./components/Product.vue').default
     }
 ]

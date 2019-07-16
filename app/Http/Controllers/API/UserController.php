@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 
 class UserController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -24,6 +25,7 @@ class UserController extends Controller
 
     public function index()
     {
+        $this->authorize('isAdmin');
         return User::latest()->paginate(10);
     }
 
@@ -35,6 +37,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+
         $this->Validate($request, [
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
@@ -89,6 +92,7 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
+
         $user = User::findOrfail($id);
 
         $user->delete();

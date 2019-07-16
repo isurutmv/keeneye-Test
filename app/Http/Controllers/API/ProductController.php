@@ -33,6 +33,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('isAdmin');
         $this->Validate($request, [
             'product_name' => ['required', 'string', 'max:255'],
             'price' => ['required', 'max:255'],
@@ -67,6 +68,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->authorize('isAdmin');
         $product = Product::findOrfail($id);
 
         $this->Validate($request, [
@@ -87,6 +89,7 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('isAdmin');
         $product = Product::findOrfail($id);
 
         $product->delete();

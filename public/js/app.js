@@ -1896,6 +1896,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -1988,6 +1998,16 @@ __webpack_require__.r(__webpack_exports__);
 
         _this4.created();
       })["catch"](function () {});
+    },
+    uploadPhoto: function uploadPhoto(e) {
+      var file = e.target.files[0];
+      var reader = new FileReader();
+
+      reader.onloadend = function () {
+        console.log("RESULT", reader.result);
+      };
+
+      reader.readAsDataURL(file);
     }
   },
   mounted: function mounted() {
@@ -2247,10 +2267,12 @@ __webpack_require__.r(__webpack_exports__);
     getusers: function getusers() {
       var _this3 = this;
 
-      axios.get("api/user").then(function (_ref) {
-        var data = _ref.data;
-        return _this3.users = data.data;
-      });
+      if (this.$gate.isAdmin()) {
+        axios.get("api/user").then(function (_ref) {
+          var data = _ref.data;
+          return _this3.users = data.data;
+        });
+      }
     },
     created: function created() {
       this.getusers();
@@ -41745,6 +41767,30 @@ var render = function() {
                       "div",
                       { staticClass: "form-group" },
                       [
+                        _c("label", [_vm._v("Product Image")]),
+                        _vm._v(" "),
+                        _c("input", {
+                          staticClass: "form-control",
+                          class: { "is-invalid": _vm.form.errors.has("image") },
+                          attrs: { type: "file", name: "image" },
+                          on: {
+                            change: function($event) {
+                              return _vm.uploadPhoto($event)
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("has-error", {
+                          attrs: { form: _vm.form, field: "price" }
+                        })
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "form-group" },
+                      [
                         _c("label", [_vm._v("Stock Avilability")]),
                         _vm._v(" "),
                         _c(
@@ -41918,89 +41964,91 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _c("div", { staticClass: "row mt-5" }, [
-      _c("div", { staticClass: "col-md-12" }, [
-        _c("div", { staticClass: "card" }, [
-          _c("div", { staticClass: "card-header" }, [
-            _c("h3", { staticClass: "card-title" }, [_vm._v("User Table")]),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-tools" }, [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-success",
-                  on: {
-                    click: function($event) {
-                      return _vm.newModel()
-                    }
-                  }
-                },
-                [_vm._v("Create New User")]
-              )
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "card-body table-responsive p-0" }, [
-            _c("table", { staticClass: "table table-hover" }, [
-              _vm._m(0),
+    _vm.$gate.isAdmin()
+      ? _c("div", { staticClass: "row mt-5" }, [
+          _c("div", { staticClass: "col-md-12" }, [
+            _c("div", { staticClass: "card" }, [
+              _c("div", { staticClass: "card-header" }, [
+                _c("h3", { staticClass: "card-title" }, [_vm._v("User Table")]),
+                _vm._v(" "),
+                _c("div", { staticClass: "card-tools" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-success",
+                      on: {
+                        click: function($event) {
+                          return _vm.newModel()
+                        }
+                      }
+                    },
+                    [_vm._v("Create New User")]
+                  )
+                ])
+              ]),
               _vm._v(" "),
-              _c(
-                "tbody",
-                _vm._l(_vm.users, function(user) {
-                  return _c("tr", { key: user.id }, [
-                    _c("td", [_vm._v(_vm._s(user.id))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(user.first_name))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(user.last_name))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(user.email))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(user.created_at))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(user.type))]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c(
-                        "a",
-                        {
-                          attrs: { href: "#" },
-                          on: {
-                            click: function($event) {
-                              return _vm.editModel(user)
-                            }
-                          }
-                        },
-                        [_c("li", { staticClass: "fa fa-edit" })]
-                      ),
-                      _vm._v("\n                  /\n                  "),
-                      _c(
-                        "a",
-                        {
-                          attrs: { href: "#" },
-                          on: {
-                            click: function($event) {
-                              return _vm.deleteUser(user.id)
-                            }
-                          }
-                        },
-                        [
-                          _c("li", {
-                            staticClass: "fa fa-trash",
-                            staticStyle: { color: "red" }
-                          })
-                        ]
-                      )
-                    ])
-                  ])
-                }),
-                0
-              )
+              _c("div", { staticClass: "card-body table-responsive p-0" }, [
+                _c("table", { staticClass: "table table-hover" }, [
+                  _vm._m(0),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    _vm._l(_vm.users, function(user) {
+                      return _c("tr", { key: user.id }, [
+                        _c("td", [_vm._v(_vm._s(user.id))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(user.first_name))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(user.last_name))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(user.email))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(user.created_at))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(user.type))]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c(
+                            "a",
+                            {
+                              attrs: { href: "#" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.editModel(user)
+                                }
+                              }
+                            },
+                            [_c("li", { staticClass: "fa fa-edit" })]
+                          ),
+                          _vm._v("\n                  /\n                  "),
+                          _c(
+                            "a",
+                            {
+                              attrs: { href: "#" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.deleteUser(user.id)
+                                }
+                              }
+                            },
+                            [
+                              _c("li", {
+                                staticClass: "fa fa-trash",
+                                staticStyle: { color: "red" }
+                              })
+                            ]
+                          )
+                        ])
+                      ])
+                    }),
+                    0
+                  )
+                ])
+              ])
             ])
           ])
         ])
-      ])
-    ]),
+      : _vm._e(),
     _vm._v(" "),
     _c(
       "div",
@@ -57266,6 +57314,51 @@ module.exports = function(module) {
 
 /***/ }),
 
+/***/ "./resources/js/Gate.js":
+/*!******************************!*\
+  !*** ./resources/js/Gate.js ***!
+  \******************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Gate; });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var Gate =
+/*#__PURE__*/
+function () {
+  function Gate(user) {
+    _classCallCheck(this, Gate);
+
+    this.user = user;
+  }
+
+  _createClass(Gate, [{
+    key: "isAdmin",
+    value: function isAdmin() {
+      return this.user.type === 'admin';
+      console.log(name);
+    }
+  }, {
+    key: "isUser",
+    value: function isUser() {
+      return this.user.type === 'user';
+    }
+  }]);
+
+  return Gate;
+}();
+
+
+
+/***/ }),
+
 /***/ "./resources/js/app.js":
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
@@ -57280,6 +57373,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vform__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vform__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _Gate__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Gate */ "./resources/js/Gate.js");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -57296,12 +57390,14 @@ window.Form = vform__WEBPACK_IMPORTED_MODULE_1__["Form"];
  // CommonJS
 
 window.Swal = sweetalert2__WEBPACK_IMPORTED_MODULE_2___default.a;
+
+Vue.prototype.$gate = new _Gate__WEBPACK_IMPORTED_MODULE_3__["default"](window.user);
 Vue.use(vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]);
 var routes = [{
   path: '/user',
   component: __webpack_require__(/*! ./components/User.vue */ "./resources/js/components/User.vue")["default"]
 }, {
-  path: '/product',
+  path: '/home',
   component: __webpack_require__(/*! ./components/Product.vue */ "./resources/js/components/Product.vue")["default"]
 }];
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]({

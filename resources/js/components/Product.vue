@@ -35,7 +35,7 @@
                   <th>Stock Status</th>
                   <th>Description</th>
                   <th>Crteated Date</th>
-                  <th>Modify</th>
+                  <th v-if="$gate.isAdmin()">Modify</th>
                 </tr>
               </thead>
               <tbody>
@@ -46,7 +46,7 @@
                   <td>{{ product.status }}</td>
                   <td>{{ product.description }}</td>
                   <td>{{ product.created_at }}</td>
-                  <td>
+                  <td v-if="$gate.isAdmin()">
                     <a href="#" @click="editModel(product)">
                       <li class="fa fa-edit"></li>
                     </a>
@@ -120,7 +120,17 @@
                 ></textarea>
                 <has-error :form="form" field="description"></has-error>
               </div>
-
+              <div class="form-group">
+                <label>Product Image</label>
+                <input
+                  @change="uploadPhoto($event)"
+                  type="file"
+                  name="image"
+                  class="form-control"
+                  :class="{ 'is-invalid': form.errors.has('image') }"
+                />
+                <has-error :form="form" field="price"></has-error>
+              </div>
               <div class="form-group">
                 <label>Stock Avilability</label>
                 <select
@@ -235,6 +245,14 @@ export default {
           this.created();
         })
         .catch(() => {});
+    },
+    uploadPhoto(e) {
+      let file = e.target.files[0];
+      let reader = new FileReader();
+      reader.onloadend = function() {
+        console.log("RESULT", reader.result);
+      };
+      reader.readAsDataURL(file);
     }
   },
 
