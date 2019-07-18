@@ -7,7 +7,7 @@
             <h3 class="card-title">Product Table</h3>
 
             <div class="card-tools">
-              <button class="btn btn-success" @click="newModel()">Create New Product</button>
+              <button  v-if="$gate.isAdmin()" class="btn btn-success" @click="newModel()">Create New Product</button>
               <!-- <div class="input-group input-group-sm" style="width: 150px;">
                 <input
                   type="text"

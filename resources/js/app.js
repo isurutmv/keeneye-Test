@@ -7,6 +7,9 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+import Gate from './Gate';
+
+Vue.prototype.$gate = new Gate(window.user);
 import VueRouter from 'vue-router'
 import {
     Form,
@@ -25,9 +28,7 @@ import Swal from 'sweetalert2'
 // CommonJS
 window.Swal = Swal
 
-import Gate from './Gate';
 
-Vue.prototype.$gate = new Gate(window.user);
 
 
 Vue.use(VueRouter)
